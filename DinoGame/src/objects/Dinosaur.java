@@ -94,32 +94,23 @@ public class Dinosaur extends GameObject {
 
 	// Phương thức xử lý sự kiện phím (UP/DOWN) trong update()
 	public void handleKeyPress(KeyCode key) {
-		// Check for jump or duck action
+		// Chỉ xử lý khi không đang nhảy và không đang cúi
 		if (!jump && !duck) {
 			if (key == KeyCode.UP || key == KeyCode.SPACE) {
-				// Initiate jump
+				// Bắt đầu nhảy
 				jump = true;
 				run = false;
 				if (jumpSound != null) {
 					jumpSound.play();
 				}
 			} else if (key == KeyCode.DOWN) {
-				// Initiate duck
+				// Bắt đầu cúi
 				duck = true;
 				run = false;
 				if (jumpSound != null) {
 					jumpSound.play();
 				}
 			}
-		}
-
-		// If jumping and DOWN key is pressed, reset jump
-		if (key == KeyCode.DOWN && jump) {
-			jump = false;
-			jumpV = JUMP_SPEED; // Reset jump velocity
-			y = Y; // Reset Y position to ground
-			imageView.setLayoutY(Y);
-			run = true;
 		}
 
 	}
