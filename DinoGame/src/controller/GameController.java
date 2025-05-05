@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -34,6 +35,7 @@ public class GameController {
 	private Label highestscoreLabel;
 	private long lastTime;
 	private double deltaTime;
+	private Button startButton;
 
 	private ImageView gameOverImageView;
 	private ImageView restartImageView;
@@ -165,8 +167,8 @@ public class GameController {
 		root.getChildren().add(highestscoreLabel);
 
 		if (death) {
-			root.getChildren().clear();
-			root.getChildren().add(highestscoreLabel);
+			// root.getChildren().clear();
+			// root.getChildren().add(highestscoreLabel);
 			if (!root.getChildren().contains(gameOverImageView)) {
 				root.getChildren().add(gameOverImageView);
 			}
@@ -185,20 +187,20 @@ public class GameController {
 
 	private void showScore() {
 		scoreLabel = new Label("Score: 0");
-		scoreLabel.setLayoutX(700);
+		scoreLabel.setLayoutX(600);
 		scoreLabel.setLayoutY(50);
-		scoreLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: black;");
+		scoreLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: darkgray;");
 	}
 
 	private void showHighestScore() {
 		highestscoreLabel = new Label("Highest Score: 0");
-		highestscoreLabel.setLayoutX(1000);
+		highestscoreLabel.setLayoutX(15);
 		highestscoreLabel.setLayoutY(50);
-		highestscoreLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: black;");
+		highestscoreLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: gold; -fx-font-weight: bold;");
 	}
 
 	private void showGameOver() {
-		root.getChildren().clear();
+		// root.getChildren().clear();
 		// Tạo ảnh Game Over và Restart
 		Image gameOverImage = new Image("file:assets/Other/GameOver.png");
 		gameOverImageView = new ImageView(gameOverImage);
@@ -207,10 +209,10 @@ public class GameController {
 		restartImageView = new ImageView(restartImage);
 
 		// Chỉnh kích thước ảnh
-		gameOverImageView.setFitWidth(400);
+		gameOverImageView.setFitWidth(900);
 		gameOverImageView.setPreserveRatio(true);
 
-		restartImageView.setFitWidth(200);
+		restartImageView.setFitWidth(100);
 		restartImageView.setPreserveRatio(true);
 
 		// Đặt vị trí ở giữa màn hình
@@ -218,7 +220,7 @@ public class GameController {
 		gameOverImageView.setY(root.getHeight() / 4 - gameOverImageView.getFitHeight() / 4);
 
 		restartImageView.setX(root.getWidth() / 2 - restartImageView.getFitWidth() / 2);
-		restartImageView.setY(root.getHeight() / 2.5 - restartImageView.getFitHeight() / 2.5);
+		restartImageView.setY(root.getHeight() / 2 - restartImageView.getFitHeight() / 1);
 
 		// Hiệu ứng nhấp nháy Game Over
 		FadeTransition blink = new FadeTransition(Duration.seconds(0.5), gameOverImageView);
@@ -230,9 +232,9 @@ public class GameController {
 
 		// Hiển thị dòng thông báo
 		gameOverText = new Text("Game Over! Press 'R' to Restart");
-		gameOverText.setX(445);
+		gameOverText.setX(400);
 		gameOverText.setY(650);
-		gameOverText.setStyle("-fx-font-size: 30px; -fx-fill: black;");
+		gameOverText.setStyle("-fx-font-size: 35px; -fx-fill: darkgray; -fx-font-weight: bold;");
 
 		// Thêm ảnh vào màn hình
 		root.getChildren().addAll(gameOverImageView, restartImageView, gameOverText);
@@ -259,16 +261,62 @@ public class GameController {
 	// Ẩn các đối tượng game khi chưa bắt đầu
 	private void hideGameElements() {
 		root.getChildren().clear();
-		Text startText = new Text("Press 'Space' to Start");
-		startText.setX(root.getWidth() / 2 - 150);
-		startText.setY(root.getHeight() / 2);
-		startText.setStyle("-fx-font-size: 30px; -fx-fill: black;");
-		root.getChildren().add(startText);
+
+		// Hiển thị ảnh nền
+		Image initialImage = new Image("file:assets/Other/initial1.jpg");
+		ImageView imageView = new ImageView(initialImage);
+		imageView.setFitWidth(root.getWidth());
+		imageView.setFitHeight(root.getHeight());
+
+		// Tạo nút
+		startButton = new Button("Bắt đầu");
+		startButton.setPrefWidth(200); // Chiều rộng nút
+		startButton.setPrefHeight(60); // Chiều cao nút
+		startButton.setStyle("-fx-font-size: 24px;" + "-fx-background-color: lightgreen;"
+				+ "-fx-background-radius: 15px;" + "-fx-font-weight: bold;");
+
+		// Canh giữa nút
+		startButton.setLayoutX(root.getWidth() / 2 - 100); // Vì width = 200
+		startButton.setLayoutY(root.getHeight() / 2 + 150);
+
+		// Hiệu ứng hover
+		startButton.setOnMouseEntered(e -> {
+			startButton.setScaleX(1.1);
+			startButton.setScaleY(1.1);
+			startButton.setStyle("-fx-font-size: 24px;" + "-fx-background-color: rgba(144,238,144,0.7);" + // lightgreen
+																											// nhạt
+					"-fx-background-radius: 15px;" + "-fx-font-weight: bold;");
+		});
+		startButton.setOnMouseExited(e -> {
+			startButton.setScaleX(1.0);
+			startButton.setScaleY(1.0);
+			startButton.setStyle("-fx-font-size: 24px;" + "-fx-background-color: lightgreen;"
+					+ "-fx-background-radius: 15px;" + "-fx-font-weight: bold;");
+		});
+
+		// Gán sự kiện riêng
+		startButton.setOnAction(e -> onStartButtonClick());
+
+		// Thêm vào root
+		root.getChildren().addAll(imageView, startButton);
 	}
 
 	// Hiển thị các đối tượng game khi bắt đầu
 	private void showGameElements() {
 		root.getChildren().clear(); // Xóa màn hình chào mừng
 		setupGame(); // Hiển thị các đối tượng trò chơi
+	}
+
+	private void onStartButtonClick() {
+		if (!isGameStarted) {
+			// Xử lý khi bấm nút bắt đầu game
+			isGameStarted = true;
+			root.getChildren().clear();
+			showGameElements();
+		}
+	}
+
+	private void onResetButtonClick() {
+		System.out.println("Đã nhấn nút hình ảnh!");
 	}
 }
