@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import objects.Bird;
@@ -268,37 +270,43 @@ public class GameController {
 		imageView.setFitWidth(root.getWidth());
 		imageView.setFitHeight(root.getHeight());
 
-		// Tạo nút
+		// Dòng chữ tiêu đề
+		Label titleLabel = new Label("Dinosaur Game");
+		titleLabel.setStyle("-fx-font-size: 48px; -fx-text-fill: #111111; -fx-font-weight: bold;");
+
+		// Tạo nút bắt đầu
 		startButton = new Button("Bắt đầu");
-		startButton.setPrefWidth(200); // Chiều rộng nút
-		startButton.setPrefHeight(60); // Chiều cao nút
-		startButton.setStyle("-fx-font-size: 24px;" + "-fx-background-color: lightgreen;"
-				+ "-fx-background-radius: 15px;" + "-fx-font-weight: bold;");
+		startButton.setPrefWidth(200);
+		startButton.setPrefHeight(60);
+		startButton.setStyle(
+				"-fx-font-size: 24px; -fx-background-color: #808080; -fx-background-radius: 15px; -fx-font-weight: bold;");
 
-		// Canh giữa nút
-		startButton.setLayoutX(root.getWidth() / 2 - 100); // Vì width = 200
-		startButton.setLayoutY(root.getHeight() / 2 + 150);
-
-		// Hiệu ứng hover
+		// Hover effect
 		startButton.setOnMouseEntered(e -> {
 			startButton.setScaleX(1.1);
 			startButton.setScaleY(1.1);
-			startButton.setStyle("-fx-font-size: 24px;" + "-fx-background-color: rgba(144,238,144,0.7);" + // lightgreen
-																											// nhạt
-					"-fx-background-radius: 15px;" + "-fx-font-weight: bold;");
+			startButton.setStyle(
+					"-fx-font-size: 24px; -fx-background-color: rgba(128,128,128,0.7); -fx-background-radius: 15px; -fx-font-weight: bold;");
 		});
 		startButton.setOnMouseExited(e -> {
 			startButton.setScaleX(1.0);
 			startButton.setScaleY(1.0);
-			startButton.setStyle("-fx-font-size: 24px;" + "-fx-background-color: lightgreen;"
-					+ "-fx-background-radius: 15px;" + "-fx-font-weight: bold;");
+			startButton.setStyle(
+					"-fx-font-size: 24px; -fx-background-color: #808080; -fx-background-radius: 15px; -fx-font-weight: bold;");
 		});
 
-		// Gán sự kiện riêng
+		// Gán sự kiện nút
 		startButton.setOnAction(e -> onStartButtonClick());
 
+		// Dùng VBox để căn giữa dòng chữ và nút
+		VBox vbox = new VBox(200); // Khoảng cách giữa các phần tử
+		vbox.setAlignment(Pos.CENTER);
+		vbox.setPrefWidth(root.getWidth());
+		vbox.setPrefHeight(root.getHeight());
+		vbox.getChildren().addAll(titleLabel, startButton);
+
 		// Thêm vào root
-		root.getChildren().addAll(imageView, startButton);
+		root.getChildren().addAll(imageView, vbox);
 	}
 
 	// Hiển thị các đối tượng game khi bắt đầu
