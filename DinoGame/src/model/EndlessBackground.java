@@ -1,4 +1,4 @@
-package objects;
+package model;
 
 import controller.GameConfig;
 import javafx.scene.image.Image;

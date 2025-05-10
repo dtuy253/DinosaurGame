@@ -1,9 +1,9 @@
-package graphics;
+package view;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import objects.GameObject;
+import model.GameObject;
 
 public class SpriteAnimated extends GameObject {
 	private ImageView imageView; // Sử dụng ImageView để hiển thị hình ảnh

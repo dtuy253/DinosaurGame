@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
+import exception.GameException;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
@@ -13,13 +14,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import objects.Bird;
-import objects.Cloud;
-import objects.Dinosaur;
-import objects.EndlessBackground;
-import objects.LargeCactus;
-import objects.Obstacle;
-import objects.SmallCactus;
+import model.Bird;
+import model.Cloud;
+import model.Dinosaur;
+import model.EndlessBackground;
+import model.LargeCactus;
+import model.Obstacle;
+import model.SmallCactus;
 
 public class GameController {
 
@@ -61,19 +62,32 @@ public class GameController {
 	}
 
 	private void setupGame() {
-		showScore();
-		showHighestScore();
-		bg = new EndlessBackground(root, "file:Assets/Other/Track.png", 490);
-		dinosaur = new Dinosaur(root);
-		clouds = new ArrayList<>();
-		for (int i = 0; i < 3; i++) {
-			clouds.add(new Cloud(root));
-		}
-		obstacles = new ArrayList<>();
+		try {
+			showScore();
+			showHighestScore();
 
-		// Chưa bắt đầu trò chơi nên không hiển thị các đối tượng như Dinosaur hay
-		// Obstacle
-		hideGameElements();
+			bg = new EndlessBackground(root, "file:Assets/Other/Track.png", 490);
+			if (bg == null) {
+				throw new GameException("Không thể tải nền game.");
+			}
+
+			dinosaur = new Dinosaur(root);
+			if (dinosaur == null) {
+				throw new GameException("Không thể khởi tạo khủng long.");
+			}
+
+			clouds = new ArrayList<>();
+			for (int i = 0; i < 3; i++) {
+				clouds.add(new Cloud(root));
+			}
+
+			obstacles = new ArrayList<>();
+
+			hideGameElements();
+		} catch (GameException e) {
+			System.out.println("Lỗi game: " + e.getMessage());
+			// Có thể hiển thị thông báo lỗi lên UI nếu muốn
+		}
 	}
 
 	private void startGameLoop() {

@@ -1,17 +1,17 @@
-package objects;
+package model;
 
-import graphics.SpriteAnimated;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
+import view.SpriteAnimated;
 
 public class Dinosaur extends GameObject {
 	private static final double X = 120;
 	private static final double Y = 420;
 	private static final double Y_DUCK = 450;
 	private static final double JUMP_SPEED = 1000; // pixel / s
-	private static final double GRAVITY = 25;
+	private static final double GRAVITY = 35;
 
 	private static final String[] DUCKING = { "file:assets/Dino/DinoDuck1.png", "file:assets/Dino/DinoDuck2.png" };
 	private static final String[] RUNNING = { "file:assets/Dino/DinoRun1.png", "file:assets/Dino/DinoRun2.png" };
@@ -111,6 +111,14 @@ public class Dinosaur extends GameObject {
 					jumpSound.play();
 				}
 			}
+
+		}
+		if (key == KeyCode.DOWN && jump) {
+			jump = false;
+			jumpV = JUMP_SPEED; // Reset jump velocity
+			y = Y; // Reset Y position to ground
+			imageView.setLayoutY(Y);
+			run = true;
 		}
 
 	}

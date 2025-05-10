@@ -1,9 +1,9 @@
-package objects;
+package model;
 
 import java.util.List;
 
-import graphics.SpriteAnimated;
 import javafx.scene.layout.Pane;
+import view.SpriteAnimated;
 
 public class Bird extends Obstacle {
 	private SpriteAnimated anim;

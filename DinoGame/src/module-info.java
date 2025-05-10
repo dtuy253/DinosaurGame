@@ -5,5 +5,5 @@ module DinoGame {
 
 	opens game to javafx.graphics, javafx.fxml;
 
-	exports objects;
+	exports model;
 }
