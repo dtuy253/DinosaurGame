@@ -1,5 +1,3 @@
-/controller/
-/game/
-/graphics/
-/module-info.class
-/objects/
+/application/
+/model/
+/view/
